@@ -80,6 +80,7 @@ benchmark-serverless-trigger:
   stage: benchmarks
   trigger:
     project: DataDog/serverless-tools
+    branch: jordan.gonzalez/fix-dependencies-on-layer-build
     strategy: depend
   allow_failure: true
   variables:
