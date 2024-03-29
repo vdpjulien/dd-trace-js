@@ -80,10 +80,11 @@ benchmark-serverless-trigger:
   stage: benchmarks
   trigger:
     project: DataDog/serverless-tools
-    branch: jordan.gonzalez/fix-dependencies-on-layer-build
+    branch: jordan.gonzalez/add-notifier
     strategy: depend
   allow_failure: true
   variables:
     UPSTREAM_COMMIT_BRANCH: $CI_COMMIT_BRANCH
     UPSTREAM_COMMIT_AUTHOR: $CI_COMMIT_AUTHOR
     UPSTREAM_PROJECT_NAME: $CI_PROJECT_NAME
+    UPSTREAM_MERGE_REQUEST_SOURCE_BRANCH_NAME: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME
