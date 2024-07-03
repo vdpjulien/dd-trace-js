@@ -34,7 +34,7 @@ class DatadogTracer {
     this._url = this._exporter._url
     this._enableGetRumData = config.experimental.enableGetRumData
     this._traceId128BitGenerationEnabled = config.traceId128BitGenerationEnabled
-    this._spanOriginEnabled = config.experimental.spanOriginEnabled
+    this._spanOriginEnabled = config.spanOriginEnabled
     this._propagators = {
       [formats.TEXT_MAP]: new TextMapPropagator(config),
       [formats.HTTP_HEADERS]: new HttpPropagator(config),

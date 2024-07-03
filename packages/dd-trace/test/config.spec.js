@@ -201,6 +201,7 @@ describe('Config', () => {
     expect(config).to.have.property('traceId128BitLoggingEnabled', false)
     expect(config).to.have.property('spanAttributeSchema', 'v0')
     expect(config).to.have.property('spanComputePeerService', false)
+    expect(config).to.have.property('spanOriginEnabled', false)
     expect(config).to.have.property('spanRemoveIntegrationFromService', false)
     expect(config).to.have.property('instrumentation_config_id', undefined)
     expect(config).to.have.deep.property('serviceMapping', {})
@@ -209,7 +210,6 @@ describe('Config', () => {
     expect(config).to.have.nested.property('experimental.runtimeId', false)
     expect(config).to.have.nested.property('experimental.exporter', undefined)
     expect(config).to.have.nested.property('experimental.enableGetRumData', false)
-    expect(config).to.have.nested.property('experimental.spanOriginEnabled', false)
     expect(config).to.have.nested.property('appsec.enabled', undefined)
     expect(config).to.have.nested.property('appsec.rules', undefined)
     expect(config).to.have.nested.property('appsec.rasp.enabled', false)
@@ -277,7 +277,6 @@ describe('Config', () => {
       { name: 'experimental.enableGetRumData', value: false, origin: 'default' },
       { name: 'experimental.exporter', value: undefined, origin: 'default' },
       { name: 'experimental.runtimeId', value: false, origin: 'default' },
-      { name: 'experimental.spanOriginEnabled', value: false, origin: 'default' },
       { name: 'flushInterval', value: 2000, origin: 'default' },
       { name: 'flushMinSpans', value: 1000, origin: 'default' },
       { name: 'gitMetadataEnabled', value: true, origin: 'default' },
@@ -330,6 +329,7 @@ describe('Config', () => {
       { name: 'site', value: 'datadoghq.com', origin: 'default' },
       { name: 'spanAttributeSchema', value: 'v0', origin: 'default' },
       { name: 'spanComputePeerService', value: false, origin: 'calculated' },
+      { name: 'spanOriginEnabled', value: false, origin: 'default' },
       { name: 'spanRemoveIntegrationFromService', value: false, origin: 'default' },
       { name: 'startupLogs', value: false, origin: 'default' },
       { name: 'stats.enabled', value: false, origin: 'calculated' },
@@ -424,8 +424,8 @@ describe('Config', () => {
     process.env.DD_TRACE_EXPERIMENTAL_EXPORTER = 'log'
     process.env.DD_TRACE_EXPERIMENTAL_GET_RUM_DATA_ENABLED = 'true'
     process.env.DD_TRACE_EXPERIMENTAL_INTERNAL_ERRORS_ENABLED = 'true'
-    process.env.DD_TRACE_EXPERIMENTAL_SPAN_ORIGIN_ENABLED = 'true'
     process.env.DD_TRACE_SPAN_ATTRIBUTE_SCHEMA = 'v1'
+    process.env.DD_TRACE_SPAN_ORIGIN_ENABLED = 'true'
     process.env.DD_TRACE_PEER_SERVICE_DEFAULTS_ENABLED = 'true'
     process.env.DD_TRACE_REMOVE_INTEGRATION_SERVICE_NAMES_ENABLED = 'true'
     process.env.DD_TRACE_REMOVE_INTEGRATION_SERVICE_NAMES_ENABLED = true
@@ -487,6 +487,7 @@ describe('Config', () => {
     expect(config).to.have.property('traceId128BitGenerationEnabled', true)
     expect(config).to.have.property('traceId128BitLoggingEnabled', true)
     expect(config).to.have.property('spanAttributeSchema', 'v1')
+    expect(config).to.have.property('spanOriginEnabled', true)
     expect(config).to.have.property('spanRemoveIntegrationFromService', true)
     expect(config).to.have.property('spanComputePeerService', true)
     expect(config).to.have.property('instrumentation_config_id', 'abcdef123')
@@ -521,7 +522,6 @@ describe('Config', () => {
     expect(config).to.have.nested.property('experimental.runtimeId', true)
     expect(config).to.have.nested.property('experimental.exporter', 'log')
     expect(config).to.have.nested.property('experimental.enableGetRumData', true)
-    expect(config).to.have.nested.property('experimental.spanOriginEnabled', true)
     expect(config).to.have.nested.property('appsec.enabled', true)
     expect(config).to.have.nested.property('appsec.rasp.enabled', true)
     expect(config).to.have.nested.property('appsec.rules', RULES_JSON_PATH)
@@ -583,7 +583,6 @@ describe('Config', () => {
       { name: 'experimental.enableGetRumData', value: true, origin: 'env_var' },
       { name: 'experimental.exporter', value: 'log', origin: 'env_var' },
       { name: 'experimental.runtimeId', value: true, origin: 'env_var' },
-      { name: 'experimental.spanOriginEnabled', value: true, origin: 'env_var' },
       { name: 'hostname', value: 'agent', origin: 'env_var' },
       { name: 'iast.deduplicationEnabled', value: false, origin: 'env_var' },
       { name: 'iast.enabled', value: true, origin: 'env_var' },
@@ -616,6 +615,7 @@ describe('Config', () => {
       },
       { name: 'service', value: 'service', origin: 'env_var' },
       { name: 'spanAttributeSchema', value: 'v1', origin: 'env_var' },
+      { name: 'spanOriginEnabled', value: true, origin: 'env_var' },
       { name: 'spanRemoveIntegrationFromService', value: true, origin: 'env_var' },
       { name: 'telemetry.enabled', value: true, origin: 'env_var' },
       { name: 'telemetry.logCollection', value: true, origin: 'env_var' },
@@ -798,6 +798,7 @@ describe('Config', () => {
     expect(config).to.have.property('logLevel', logLevel)
     expect(config).to.have.property('traceId128BitGenerationEnabled', true)
     expect(config).to.have.property('traceId128BitLoggingEnabled', true)
+    expect(config).to.have.property('spanOriginEnabled', false)
     expect(config).to.have.property('spanRemoveIntegrationFromService', true)
     expect(config).to.have.property('spanComputePeerService', true)
     expect(config).to.have.deep.property('peerServiceMapping', { d: 'dd' })
@@ -810,7 +811,6 @@ describe('Config', () => {
     expect(config).to.have.nested.property('experimental.runtimeId', true)
     expect(config).to.have.nested.property('experimental.exporter', 'log')
     expect(config).to.have.nested.property('experimental.enableGetRumData', true)
-    expect(config).to.have.nested.property('experimental.spanOriginEnabled', false)
     expect(config).to.have.nested.property('appsec.enabled', false)
     expect(config).to.have.nested.property('appsec.standalone.enabled', true)
     expect(config).to.have.nested.property('remoteConfig.pollInterval', 42)
@@ -857,7 +857,6 @@ describe('Config', () => {
       { name: 'experimental.enableGetRumData', value: true, origin: 'code' },
       { name: 'experimental.exporter', value: 'log', origin: 'code' },
       { name: 'experimental.runtimeId', value: true, origin: 'code' },
-      { name: 'experimental.spanOriginEnabled', value: false, origin: 'code' },
       { name: 'flushInterval', value: 5000, origin: 'code' },
       { name: 'flushMinSpans', value: 500, origin: 'code' },
       { name: 'hostname', value: 'agent', origin: 'code' },
@@ -884,6 +883,7 @@ describe('Config', () => {
       { name: 'site', value: 'datadoghq.eu', origin: 'code' },
       { name: 'spanAttributeSchema', value: 'v1', origin: 'code' },
       { name: 'spanComputePeerService', value: true, origin: 'calculated' },
+      { name: 'spanOriginEnabled', value: false, origin: 'code' },
       { name: 'spanRemoveIntegrationFromService', value: true, origin: 'code' },
       { name: 'stats.enabled', value: false, origin: 'calculated' },
       { name: 'telemetry.logCollection', value: true, origin: 'code' },
@@ -1163,6 +1163,7 @@ describe('Config', () => {
     expect(config.tags).to.include({ service: 'test', version: '1.0.0', env: 'development' })
     expect(config).to.have.deep.property('serviceMapping', { b: 'bb' })
     expect(config).to.have.property('spanAttributeSchema', 'v1')
+    expect(config).to.have.property('spanOriginEnabled', false)
     expect(config).to.have.property('spanRemoveIntegrationFromService', true)
     expect(config).to.have.property('spanComputePeerService', true)
     expect(config).to.have.deep.property('peerServiceMapping', { d: 'dd' })
@@ -1171,7 +1172,6 @@ describe('Config', () => {
     expect(config).to.have.nested.property('experimental.runtimeId', false)
     expect(config).to.have.nested.property('experimental.exporter', 'agent')
     expect(config).to.have.nested.property('experimental.enableGetRumData', false)
-    expect(config).to.have.nested.property('experimental.spanOriginEnabled', false)
     expect(config).to.have.nested.property('appsec.enabled', true)
     expect(config).to.have.nested.property('appsec.rasp.enabled', false)
     expect(config).to.have.nested.property('appsec.rules', RULES_JSON_PATH)
