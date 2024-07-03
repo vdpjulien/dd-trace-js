@@ -67,7 +67,7 @@ function getRelativeFilename (filename, containsFileProtocol = filename.startsWi
 // TODO: This should be somewhere else specifically related to Span Origin
 function getSpanOriginTags (callsite) {
   if (!callsite) return
-  const file = getRelativeFilename(callsite.getFileName())
+  const file = callsite.getFileName()
   const line = callsite.getLineNumber()
   const method = callsite.getFunctionName()
   return method
