@@ -8,7 +8,6 @@ module.exports = {
   getCallSites,
   getUserLandCallsites,
   getTopUserLandCallsite,
-  getRelativeFilename,
   getSpanOriginTags
 }
 
@@ -45,7 +44,7 @@ function getUserLandCallsites (constructorOpt = getUserLandCallsites) {
     if (fullPath.startsWith(cwd, containsFileProtocol ? 7 : 0) === false) {
       continue
     }
-    const relativePath = getRelativeFilename(fullPath, containsFileProtocol)
+    const relativePath = relative(fullPath, containsFileProtocol ? fullPath.substring(7) : fullPath)
     if (relativePath.startsWith('node_modules' + sep) || relativePath.includes(sep + 'node_modules' + sep)) {
       continue
     }
@@ -57,11 +56,6 @@ function getUserLandCallsites (constructorOpt = getUserLandCallsites) {
 function getTopUserLandCallsite (constructorOpt) {
   const callsites = getUserLandCallsites(constructorOpt)
   return callsites && callsites[0]
-}
-
-// *.mjs paths start with the "file://" protocol because ESM supports https imports
-function getRelativeFilename (filename, containsFileProtocol = filename.startsWith('file://')) {
-  return relative(cwd, containsFileProtocol ? filename.substring(7) : filename)
 }
 
 // TODO: This should be somewhere else specifically related to Span Origin

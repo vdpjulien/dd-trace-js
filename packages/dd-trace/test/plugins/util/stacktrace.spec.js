@@ -1,13 +1,10 @@
 'use strict'
 
-const { relative } = require('path')
-
 require('../../setup/tap')
 
 const {
   getCallSites,
-  getUserLandCallsites,
-  getRelativeFilename
+  getUserLandCallsites
 } = require('../../../src/plugins/util/stacktrace')
 
 describe('stacktrace utils', () => {
@@ -21,12 +18,6 @@ describe('stacktrace utils', () => {
     const callsite = callsites[0]
     expect(callsite.getFileName()).to.equal(__filename)
     expect(callsite.getFunctionName()).to.equal('helloWorld')
-  })
-
-  it('getRelativeFilename', () => {
-    expect(getRelativeFilename(__filename)).to.equal(relative(process.cwd(), __filename))
-    expect(getRelativeFilename('file://' + __filename)).to.equal(relative(process.cwd(), __filename))
-    expect(getRelativeFilename('file://' + __filename, true)).to.equal(relative(process.cwd(), __filename))
   })
 })
 
