@@ -721,6 +721,7 @@ describe('Config', () => {
       ],
       spanAttributeSchema: 'v1',
       spanComputePeerService: true,
+      spanOriginEnabled: false,
       spanRemoveIntegrationFromService: true,
       peerServiceMapping: {
         d: 'dd'
@@ -747,7 +748,6 @@ describe('Config', () => {
         runtimeId: true,
         exporter: 'log',
         enableGetRumData: true,
-        spanOriginEnabled: false,
         iast: {
           enabled: true,
           requestSampling: 50,
