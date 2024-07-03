@@ -186,7 +186,8 @@ describe('Span', () => {
     expect(span.context()._tags).to.have.property('_dd.entry_location.method')
     expect(span.context()._tags['_dd.entry_location.file']).to.equal(__filename)
     expect(span.context()._tags['_dd.entry_location.line']).to.be.a('string')
-    expect(parseInt(span.context()._tags['_dd.entry_location.line'], 10)).to.be.gt(0)
+    expect(span.context()._tags['_dd.entry_location.line']).to.match(/^\d+$/)
+    expect(Number(span.context()._tags['_dd.entry_location.line'])).to.be.gt(0)
     expect(span.context()._tags['_dd.entry_location.method']).to.equal('helloWorld')
   })
 
