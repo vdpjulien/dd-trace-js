@@ -16,8 +16,8 @@ class WebPlugin extends Plugin {
     web.setFramework(req, name, config)
   }
 
-  setSpanOrigin (req, tags) {
-    web.setSpanOrigin(req, tags)
+  setSpanTags (req, tags) {
+    web.setSpanTags(req, tags)
   }
 }
 

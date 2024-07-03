@@ -68,7 +68,7 @@ const web = {
     web.setConfig(req, config)
   },
 
-  setSpanOrigin (req, tags) {
+  setSpanTags (req, tags) {
     const context = this.patch(req)
     const span = context.span
 

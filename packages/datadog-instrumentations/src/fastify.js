@@ -2,7 +2,10 @@
 
 const shimmer = require('../../datadog-shimmer')
 const { addHook, channel, AsyncResource } = require('./helpers/instrument')
-const { getSpanOriginTags, getTopUserLandCallsite } = require('../../dd-trace/src/plugins/util/stacktrace')
+const {
+  getSpanOriginTags: getSpanOriginTagsFromCallsite,
+  getTopUserLandCallsite
+} = require('../../dd-trace/src/plugins/util/stacktrace')
 
 const errorChannel = channel('apm:fastify:middleware:error')
 const handleChannel = channel('apm:fastify:request:handle')
@@ -91,7 +94,7 @@ function onRequest (request, reply, done) {
 
   const req = getReq(request)
   const res = getRes(reply)
-  const tags = getTags(request)
+  const tags = getSpanOriginTags(request)
 
   handleChannel.publish({ req, res, tags })
 
@@ -148,7 +151,7 @@ function getRes (reply) {
   return reply && (reply.raw || reply.res || reply)
 }
 
-function getTags (request) {
+function getSpanOriginTags (request) {
   return request?.routeOptions?.config?.[kSpanOriginTagsSym]
 }
 
@@ -161,7 +164,7 @@ function publishError (error, req) {
 }
 
 function onRoute (routeOptions) {
-  const tags = getSpanOriginTags(getTopUserLandCallsite())
+  const tags = getSpanOriginTagsFromCallsite(getTopUserLandCallsite())
   if (!tags) return
   if (!routeOptions.config) routeOptions.config = {}
   routeOptions.config[kSpanOriginTagsSym] = tags
