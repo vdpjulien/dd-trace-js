@@ -68,16 +68,16 @@ function getRelativeFilename (filename, containsFileProtocol = filename.startsWi
 function getSpanOriginTags (callsite) {
   if (!callsite) return
   const file = callsite.getFileName()
-  const line = callsite.getLineNumber()
+  const line = String(callsite.getLineNumber())
   const method = callsite.getFunctionName()
   return method
     ? {
         '_dd.entry_location.file': file,
-        '_dd.entry_location.line': String(line),
+        '_dd.entry_location.line': line,
         '_dd.entry_location.method': method
       }
     : {
         '_dd.entry_location.file': file,
-        '_dd.entry_location.line': String(line)
+        '_dd.entry_location.line': line
       }
 }
