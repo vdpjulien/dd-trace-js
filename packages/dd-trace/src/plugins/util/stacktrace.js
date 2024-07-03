@@ -73,11 +73,11 @@ function getSpanOriginTags (callsite) {
   return method
     ? {
         '_dd.entry_location.file': file,
-        '_dd.entry_location.line': line,
+        '_dd.entry_location.line': String(line),
         '_dd.entry_location.method': method
       }
     : {
         '_dd.entry_location.file': file,
-        '_dd.entry_location.line': line
+        '_dd.entry_location.line': String(line)
       }
 }
