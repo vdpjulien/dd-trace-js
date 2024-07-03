@@ -62,7 +62,7 @@ function getUserLandCallsites (constructorOpt = getUserLandCallsites, returnTopU
 
     // TODO: Technically, the algorithm below could be simplified to not use the relative path, but be simply:
     //
-    //     if (fullPath.includes(sep + 'node_modules' + sep)) continue
+    //     if (filename.includes(sep + 'node_modules' + sep)) continue
     //
     // However, the tests in `packages/dd-trace/test/plugins/util/stacktrace.spec.js` will fail on my machine
     // because I have the source code in a parent folder called `node_modules`. So the code below thinks that
