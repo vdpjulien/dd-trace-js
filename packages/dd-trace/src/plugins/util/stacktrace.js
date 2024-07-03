@@ -31,7 +31,7 @@ function getCallSites (constructorOpt) {
   return v8StackTrace
 }
 
-function getUserLandCallsites (constructorOpt = getUserLandCallsites) {
+function getUserLandCallsites (constructorOpt = getUserLandCallsites, returnTopUserLandFrameOnly = false) {
   const callsites = getCallSites(constructorOpt)
   for (let i = 0; i < callsites.length; i++) {
     const fullPath = callsites[i].getFileName()
@@ -49,13 +49,14 @@ function getUserLandCallsites (constructorOpt = getUserLandCallsites) {
       continue
     }
 
-    return i === 0 ? callsites : callsites.slice(i)
+    return returnTopUserLandFrameOnly
+      ? callsite
+      : (i === 0 ? callsites : callsites.slice(i))
   }
 }
 
 function getTopUserLandCallsite (constructorOpt) {
-  const callsites = getUserLandCallsites(constructorOpt)
-  return callsites && callsites[0]
+  return getUserLandCallsites(constructorOpt, true)
 }
 
 // TODO: This should be somewhere else specifically related to Span Origin
