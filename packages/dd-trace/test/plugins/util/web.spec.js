@@ -139,6 +139,22 @@ describe('plugins/util/web', () => {
     })
   })
 
+  describe('setSpanTags', () => {
+    it('should add expected tags', () => {
+      web.instrument(tracer, config, req, res, 'test.request', span => {
+        web.setSpanTags(req, { foo: 'bar' })
+
+        const tags = span.context()._tags
+
+        res.end()
+
+        expect(tags).to.include({
+          foo: 'bar'
+        })
+      })
+    })
+  })
+
   describe('instrument', () => {
     describe('on request start', () => {
       it('should set the parent from the request headers', () => {
