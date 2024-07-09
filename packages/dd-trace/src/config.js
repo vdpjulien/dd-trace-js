@@ -498,6 +498,7 @@ class Config {
     this._setValue(defaults, 'dogstatsd.hostname', '127.0.0.1')
     this._setValue(defaults, 'dogstatsd.port', '8125')
     this._setValue(defaults, 'dsmEnabled', false)
+    this._setValue(defaults, 'dynamicInstrumentationEnabled', false)
     this._setValue(defaults, 'env', undefined)
     this._setValue(defaults, 'experimental.enableGetRumData', false)
     this._setValue(defaults, 'experimental.exporter', undefined)
@@ -589,6 +590,7 @@ class Config {
       DD_DBM_PROPAGATION_MODE,
       DD_DOGSTATSD_HOSTNAME,
       DD_DOGSTATSD_PORT,
+      DD_DYNAMIC_INSTRUMENTATION_ENABLED,
       DD_ENV,
       DD_EXPERIMENTAL_APPSEC_STANDALONE_ENABLED,
       DD_EXPERIMENTAL_PROFILING_ENABLED,
@@ -696,6 +698,7 @@ class Config {
     this._setString(env, 'dogstatsd.hostname', DD_DOGSTATSD_HOSTNAME)
     this._setString(env, 'dogstatsd.port', DD_DOGSTATSD_PORT)
     this._setBoolean(env, 'dsmEnabled', DD_DATA_STREAMS_ENABLED)
+    this._setBoolean(env, 'dynamicInstrumentationEnabled', DD_DYNAMIC_INSTRUMENTATION_ENABLED)
     this._setString(env, 'env', DD_ENV || tags.env)
     this._setBoolean(env, 'experimental.enableGetRumData', DD_TRACE_EXPERIMENTAL_GET_RUM_DATA_ENABLED)
     this._setString(env, 'experimental.exporter', DD_TRACE_EXPERIMENTAL_EXPORTER)
@@ -837,6 +840,7 @@ class Config {
       this._setString(opts, 'dogstatsd.port', options.dogstatsd.port)
     }
     this._setBoolean(opts, 'dsmEnabled', options.dsmEnabled)
+    this._setBoolean(opts, 'dynamicInstrumentationEnabled', options.dynamicInstrumentationEnabled)
     this._setString(opts, 'env', options.env || tags.env)
     this._setBoolean(opts, 'experimental.enableGetRumData',
       options.experimental && options.experimental.enableGetRumData)
