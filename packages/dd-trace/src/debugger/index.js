@@ -1,6 +1,5 @@
 'use strict'
 
-const { format } = require('node:util')
 const { join } = require('node:path')
 const { Worker, MessageChannel } = require('node:worker_threads')
 const log = require('../log')
@@ -22,14 +21,13 @@ exports.start = function (rc) {
   })
 
   const rcChannel = new MessageChannel()
-  const logChannel = new MessageChannel()
 
   worker = new Worker(
     join(__dirname, 'devtools_client', 'index.js'),
     {
       execArgv: [], // Avoid worker thread inheriting the `-r` command line argument
-      workerData: { rcPort: rcChannel.port1, logPort: logChannel.port1 },
-      transferList: [rcChannel.port1, logChannel.port1]
+      workerData: { rcPort: rcChannel.port1 },
+      transferList: [rcChannel.port1]
     }
   )
 
@@ -48,9 +46,5 @@ exports.start = function (rc) {
     if (code !== 0) {
       throw new Error(`DevTools client stopped with unexpected exit code: ${code}`)
     }
-  })
-
-  logChannel.port2.on('message', ({ level, args }) => {
-    log[level](format(...args))
   })
 }

@@ -2,9 +2,9 @@
 
 const { workerData: { rcPort } } = require('node:worker_threads')
 const { scripts, probes, breakpoints } = require('./state')
-const log = require('./logger')
 const session = require('./session')
 const { ackReceived, ackInstalled, ackError } = require('./status')
+const log = require('../../log')
 
 let sessionStarted = false
 

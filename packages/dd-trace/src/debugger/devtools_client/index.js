@@ -1,12 +1,12 @@
 'use strict'
 
 const { breakpoints } = require('./state')
-const log = require('./logger')
 const session = require('./session')
 const { getLocalStateForBreakpoint, toObject } = require('./snapshot')
 const send = require('./send')
 const { ackEmitting } = require('./status')
 require('./remote_config')
+const log = require('../../log')
 
 // The `session.connectToMainThread()` method called above doesn't "register" any active handles, so the worker thread
 // will exit with code 0 once when reaches the end of the file unless we do something to keep it alive:
